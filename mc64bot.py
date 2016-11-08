@@ -94,7 +94,7 @@ def say(bot, update):
     message="El servidor está DOWN! ¿Con quién querés que hable? ¿Con las paredes?"
   bot.sendMessage(update.message.chat_id, text=message)
 
-def craft(bot, uptdate):
+def craft(bot, update):
   item=update.message.text[5:]
   if not item:
     message="Lista de bloques crafteables\n\
