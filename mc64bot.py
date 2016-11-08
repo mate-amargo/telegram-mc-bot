@@ -94,6 +94,14 @@ def say(bot, update):
     message="El servidor está DOWN! ¿Con quién querés que hable? ¿Con las paredes?"
   bot.sendMessage(update.message.chat_id, text=message)
 
+def craft(bot, uptdate):
+  item=update.message.text[5:]
+  if not item:
+    message="Lista de bloques crafteables\n\
+             piston\n"
+    bot.sendMessage(update.message.chat_id, text=message)
+  elif item == "piston":
+    bot.sendPhoto(update.message.chat_id, photo='./crafting/piston.png')
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
@@ -112,6 +120,7 @@ def main():
     dp.add_handler(CommandHandler("list", list_players))
     dp.add_handler(CommandHandler("version", version))
     dp.add_handler(CommandHandler("say", say))
+    dp.add_handler(CommandHandler("craft", craft))
 
     # log all errors
     dp.add_error_handler(error)
