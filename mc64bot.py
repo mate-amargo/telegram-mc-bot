@@ -100,6 +100,8 @@ def craft(bot, update):
     bot.sendPhoto(update.message.chat_id, photo=open('crafting/piston.png', 'rb'))
   elif item == "tnt":
     bot.sendPhoto(update.message.chat_id, photo=open('crafting/tnt.png', 'rb'))
+  elif item == "pressure_plate":
+    bot.sendPhoto(update.message.chat_id, photo=open('crafting/pressure_plate.gif', 'rb'))
   else:  
     message="Lista de bloques crafteables\npiston\ntnt\n"
     bot.sendMessage(update.message.chat_id, text=message)
