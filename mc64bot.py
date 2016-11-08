@@ -95,13 +95,13 @@ def say(bot, update):
   bot.sendMessage(update.message.chat_id, text=message)
 
 def craft(bot, update):
-  item=update.message.text[5:]
+  item=update.message.text[7:]
   if not item:
     message="Lista de bloques crafteables\n\
              piston\n"
     bot.sendMessage(update.message.chat_id, text=message)
   elif item == "piston":
-    bot.sendPhoto(update.message.chat_id, photo='./crafting/piston.png')
+    bot.sendPhoto(update.message.chat_id, photo=open('crafting/piston.png', 'rb'))
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
