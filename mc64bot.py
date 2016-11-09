@@ -31,7 +31,7 @@ server_dir = "/srv/mc"
 # update. Error handlers also receive the raised TelegramError object in error.
 
 def help(bot, update):
-    bot.sendMessage(update.message.chat_id, text='Comandos disponibles:\nstatus - Devuelve el estado del servidor.\nuptime - Tiempo desde que el servidor se inició.\nlist - Lista los jugadores conectados.\nsay - Envia un mensaje a los jugadores que están en el servidor.\nversion - Muestra la versión del servidor.\nhelp - Ayuda.')
+    bot.sendMessage(update.message.chat_id, text='Comandos disponibles:\nstatus - Devuelve el estado del servidor.\nuptime - Tiempo desde que el servidor se inició.\nlist - Lista los jugadores conectados.\nsay - Envia un mensaje a los jugadores que están en el servidor.\ncraft - Muestra la receta para craftear un determinado bloque/item\nversion - Muestra la versión del servidor.\nhelp - Ayuda.')
 
 def status(bot, update):
     if (os.path.isfile(server_dir+"/logs/up")):
