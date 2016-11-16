@@ -50,7 +50,7 @@ def uptime(bot, update):
       h, m = divmod(m, 60)
       d, h = divmod(h, 24)
       if (d > 0):
-        message = "%2d días " % (d)
+        message = "%2d día%s" % (d, "s " if d > 1 else " ")
       else:
         message = ""
       message += "%02d:%02d:%02d" % (h, m, s)
