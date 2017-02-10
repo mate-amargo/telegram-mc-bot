@@ -88,7 +88,7 @@ def say(bot, update):
     else:    
       user_name=update.message.from_user.first_name
       user_message=update.message.text[5:]
-      call(["tmux", "send-keys", "-t", "mc_srv", "/tellraw @a [\"\", {\"text\":\"", user_name, "\",\"color\":\"blue\"},{\"text\":\" dice: " , user_message, "\",\"color\":\"reset\"}]", "C-m"])
+      call(["tmux", "send-keys", "-t", "mc_srv", "tellraw @a [\"\", {\"text\":\"", user_name, "\",\"color\":\"blue\"},{\"text\":\" dice: " , user_message, "\",\"color\":\"reset\"}]", "C-m"])
       message="Su mensaje ha sido enviado"
   else:
     message="El servidor está DOWN! ¿Con quién querés que hable? ¿Con las paredes?"
