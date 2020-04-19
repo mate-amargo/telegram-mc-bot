@@ -2,14 +2,6 @@
 # -*- coding: utf-8 -*-
 # MC64BOT - A telegram Bot to interact with a Minecraft Server
 
-"""
-This Bot uses the Updater class to handle the bot.
-
-First, a few handler functions are defined. Then, those functions are passed to
-the Dispatcher and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-"""
-
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 import os.path
@@ -18,26 +10,30 @@ from subprocess import call
 from mcstatus import MinecraftServer
 
 server = MinecraftServer.lookup("127.0.0.1:25565")
+token = "245068642:AAFzgu14W2c_dmroDuNA1Kp1wELqQOLUasw"
 
-# Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 logger = logging.getLogger(__name__)
 
-server_dir = "/srv/mc"
-
-# Define a few command handlers. These usually take the two arguments bot and
-# update. Error handlers also receive the raised TelegramError object in error.
+server_dir = "/home/minecraft/server"
 
 def help(bot, update):
-    bot.sendMessage(update.message.chat_id, text='Comandos disponibles:\nstatus - Devuelve el estado del servidor.\nuptime - Tiempo desde que el servidor se inició.\nlist - Lista los jugadores conectados.\nsay - Envia un mensaje a los jugadores que están en el servidor.\ncraft - Muestra la receta para craftear un determinado bloque/item.\nversion - Muestra la versión del servidor.\nhelp - Ayuda.')
+    bot.sendMessage(update.message.chat_id, text='Comandos disponibles:\nstatus - Devuelve el estado del servidor.\nip - Muestra la IP del servidor.\nuptime - Tiempo desde que el servidor se inició.\nlist - Lista los jugadores conectados.\nsay - Envia un mensaje a los jugadores que están en el servidor.\ncraft - Muestra la receta para craftear un determinado bloque/item.\nversion - Muestra la versión del servidor.\nhelp - Ayuda.')
 
 def status(bot, update):
     if (os.path.isfile(server_dir+"/logs/up")):
       bot.sendMessage(update.message.chat_id, text='El servidor está UP')
     else:
       bot.sendMessage(update.message.chat_id, text='El servidor está DOWN')
+
+def ip(bot, update):
+    if (os.path.isfile(server_dir+"/logs/up")):
+      ip_file = open('/var/tmp/public_ip','r')
+      ip = ip_file.read()
+      bot.sendMessage(update.message.chat_id, text=ip)
+      ip_file.close()
 
 def uptime(bot, update):
     if (os.path.isfile(server_dir+"/logs/up")):
@@ -75,7 +71,7 @@ def list_players(bot, update):
 def version(bot, update):
   if (os.path.isfile(server_dir+"/logs/up")):
      status = server.status()
-     message = "Versión " + status.version.name
+     message = "Versión " + status.version.name.encode('utf-8')
   else:
      message='Imposible saber. El servidor está DOWN'
   bot.sendMessage(update.message.chat_id, text=message)
@@ -88,7 +84,7 @@ def say(bot, update):
     else:    
       user_name=update.message.from_user.first_name
       user_message=update.message.text[5:]
-      call(["tmux", "send-keys", "-t", "mc_srv", "tellraw @a [\"\", {\"text\":\"", user_name, "\",\"color\":\"blue\"},{\"text\":\" dice: " , user_message, "\",\"color\":\"reset\"}]", "C-m"])
+      call(["tmux", "-u", "send-keys", "-t", "mc_srv:0", "tellraw @a [\"\", {\"text\":\"", user_name, "\",\"color\":\"blue\"},{\"text\":\" dice: ", user_message, "\",\"color\":\"reset\"}]", "C-m"])
       message="Su mensaje ha sido enviado"
   else:
     message="El servidor está DOWN! ¿Con quién querés que hable? ¿Con las paredes?"
@@ -467,7 +463,7 @@ def error(bot, update, error):
 
 def main():
     # Create the EventHandler and pass it our bot's token.
-    updater = Updater("245068642:AAFzgu14W2c_dmroDuNA1Kp1wELqQOLUasw")
+    updater = Updater(token)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -475,6 +471,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("status", status))
+    dp.add_handler(CommandHandler("ip", ip))
     dp.add_handler(CommandHandler("uptime", uptime))
     dp.add_handler(CommandHandler("list", list_players))
     dp.add_handler(CommandHandler("version", version))
