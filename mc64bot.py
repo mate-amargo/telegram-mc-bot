@@ -10,7 +10,7 @@ from subprocess import call
 from mcstatus import MinecraftServer
 
 server = MinecraftServer.lookup("127.0.0.1:25565")
-token = "245068642:AAFzgu14W2c_dmroDuNA1Kp1wELqQOLUasw"
+token = "TOKEN"
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
