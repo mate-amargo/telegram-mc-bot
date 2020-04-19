@@ -5,6 +5,8 @@ It has the following commands:
 
 /status  - Returns the server status (Online/Offline).
 
+/ip      - Returns the IP of the server.
+
 /uptime  - Minecraft server uptime.
 
 /list    - List online players.
